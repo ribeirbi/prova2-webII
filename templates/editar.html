@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block titulo %}Editar palestrante{% endblock %}
+
+{% block conteudo %}
+
+  <h2>Editar palestrante</h2>
+
+  <form method="post">
+    <input name="nome" value="{{ palestrante.nome }}" required>
+    <input name="tema" value="{{ palestrante.tema }}">
+    <input name="minutos" value="{{ palestrante.minutos }}">
+    <button type="submit">Salvar</button>
+  </form>
+
+  <p><a href="{{ url_for('palestrante.index') }}">Cancelar</a></p>
+
+{% endblock %}

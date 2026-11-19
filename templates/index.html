@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block titulo %}Palestrantes{% endblock %}
+
+{% block conteudo %}
+
+  <h2>Cadastrar palestrante</h2>
+
+  <form method="post">
+    <input name="nome" placeholder="Nome" required>
+    <input name="tema" placeholder="Tema">
+    <input name="minutos" placeholder="Minutos">
+    <button type="submit">Cadastrar</button>
+  </form>
+
+  <h2>Palestrantes</h2>
+
+  <div class="assincrono">
+    <button id="atualizar" type="button">atualizar lista</button>
+    <p class="aviso-js" id="aviso-js"></p>
+  </div>
+
+  <!-- ===== ITEM 2 =====================================================
+       Acima da lista, exiba:
+         - havendo registros, a contagem, no formato:  N registro(s).
+         - nao havendo nenhum, a frase:  Nenhum palestrante cadastrado.
+       ================================================================== -->
+
+  <ul id="lista">
+    {% for item in palestrantes %}
+      <li>
+        <strong>{{ item.nome }}</strong>
+        — {{ item.tema }}
+        — {{ item.minutos }}
+
+        <a href="{{ url_for('palestrante.editar', id=item.id) }}">editar</a>
+
+        <form method="post" action="{{ url_for('palestrante.excluir', id=item.id) }}">
+          <button type="submit">excluir</button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <p class="escopos">
+    Visitas nesta sessão: <strong id="contador">{{ session["visitas"] }}</strong>
+  </p>
+
+{% endblock %}
