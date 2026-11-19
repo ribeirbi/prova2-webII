@@ -196,4 +196,3 @@ Cada um dos 12 itens é avaliado como **atende** ou **não atende**, pelo crité
 
 Boa prova.
  
- 

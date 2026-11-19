@@ -10,6 +10,7 @@ class PalestranteDAO:
     @staticmethod
     def salvar(palestrante):
         db.session.add(palestrante)
+        db.session.commit()
 
     # READ (todos)
     @staticmethod
