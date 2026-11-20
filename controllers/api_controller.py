@@ -13,6 +13,16 @@ from dao.palestrante_dao import PalestranteDAO
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
+@api_bp.route("/palestrantes/<int:id>", methods=["GET"])
+def buscar(id):
+    palestrante = PalestranteDAO.buscar_por_id(id)
+
+    if not palestrante:
+        return jsonify({
+            "erro": "Palestrante nao encontrado."
+        }), 404
+
+    return jsonify(palestrante.para_dicionario())
 
 @api_bp.before_request
 def exigir_login():
