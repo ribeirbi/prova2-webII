@@ -26,7 +26,10 @@ def index():
         )
         PalestranteDAO.salvar(palestrante)
         flash("Palestrante cadastrado.")
-        return redirect(url_for("palestrante.index"))
+        return redirect(url_for("palestrante.index")) 
+
+    session["visitas"] = session.get("visitas", 0) + 1
+
 
     # ===== ITEM 3 ====================================================
     # Conte aqui, na SESSAO, quantas vezes esta pessoa abriu a listagem.
@@ -40,6 +43,16 @@ def index():
 @palestrante_bp.route("/editar/<int:id>", methods=["GET", "POST"])
 def editar(id):
     palestrante = PalestranteDAO.buscar_por_id(id)
+    if request.method == "POST":
+        PalestranteDAO.atualizar(
+            palestrante,
+            nome=request.form["nome"],
+            tema=request.form["tema"],
+            minutos=request.form["minutos"]
+        )
+        PalestranteDAO.atualizar(palestrante, request.form["nome"], request.form["tema"], request.form["minutos"])
+        flash("Palestrante atualizado.")
+        return redirect(url_for("palestrante.index"))
 
     # ===== ITEM 4 ====================================================
     # O formulario de edicao e enviado para esta rota por POST, mas nada

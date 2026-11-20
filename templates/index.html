@@ -26,6 +26,11 @@
          - nao havendo nenhum, a frase:  Nenhum palestrante cadastrado.
        ================================================================== -->
 
+ {% if palestrantes%}
+ {{ palestrantes | length}}
+ registros(s).
+ {%else %}
+ {% endif %}
   
        <ul id="lista">
     {% for item in palestrantes %}
@@ -48,3 +53,4 @@
   </p>
 
 {% endblock %}
+
