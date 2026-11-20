@@ -8,6 +8,11 @@ from dao.palestrante_dao import PalestranteDAO
 
 palestrante_bp = Blueprint("palestrante", __name__)
 
+@palestrante_bp.before_request
+def proteger_paginas():
+    if "usuario_id" not in session:
+        return redirect(url_for("auth.login"))
+
 
 # ===== ITEM 5 ========================================================
 # Hoje qualquer pessoa abre as paginas deste Blueprint sem entrar no
@@ -31,11 +36,6 @@ def index():
     session["visitas"] = session.get("visitas", 0) + 1
 
 
-    # ===== ITEM 3 ====================================================
-    # Conte aqui, na SESSAO, quantas vezes esta pessoa abriu a listagem.
-    # A chave deve se chamar "visitas". O template ja exibe o valor.
-    # =================================================================
-
     return render_template("index.html", palestrantes=PalestranteDAO.listar())
 
 
@@ -53,11 +53,6 @@ def editar(id):
         PalestranteDAO.atualizar(palestrante, request.form["nome"], request.form["tema"], request.form["minutos"])
         flash("Palestrante atualizado.")
         return redirect(url_for("palestrante.index"))
-
-    # ===== ITEM 4 ====================================================
-    # O formulario de edicao e enviado para esta rota por POST, mas nada
-    # e gravado. Trate aqui o envio: grave a alteracao e volte a listagem.
-    # =================================================================
 
     return render_template("editar.html", palestrante=palestrante)
 
