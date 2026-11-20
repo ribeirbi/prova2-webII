@@ -13,16 +13,7 @@ from dao.palestrante_dao import PalestranteDAO
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
-@api_bp.route("/palestrantes/<int:id>", methods=["GET"])
-def buscar(id):
-    palestrante = PalestranteDAO.buscar_por_id(id)
 
-    if not palestrante:
-        return jsonify({
-            "erro": "Palestrante nao encontrado."
-        }), 404
-
-    return jsonify(palestrante.para_dicionario())
 
 @api_bp.before_request
 def exigir_login():
@@ -39,15 +30,24 @@ def listar():
 
     return jsonify(lista)
 
+@api_bp.route("/palestrantes/<int:id>", methods=["GET"])
+def buscar(id):
+    palestrante = PalestranteDAO.buscar_por_id(id)
 
-# ===== ITEM 7 ========================================================
-# Escreva aqui a rota GET /api/palestrantes/<id>, que devolve UM registro.
-# Se o id nao existir, a resposta e 404 com {"erro": "Palestrante nao encontrado."}.
-# =====================================================================
+    if not palestrante:
+        return jsonify({
+            "erro": "Palestrante nao encontrado."
+        }), 404
 
 
-# ===== ITEM 9 ========================================================
-# Escreva aqui a rota DELETE /api/palestrantes/<id>, que remove UM registro.
-# Sucesso: 204, sem corpo. Se o id nao existir: 404 com
-# {"erro": "Palestrante nao encontrado."}.
-# =====================================================================
+@api_bp.route("/palestrantes/<int:id>", methods=["DELETE"])
+def excluir_api(id):
+    palestrante = PalestranteDAO.buscar_por_id(id)
+
+    if not palestrante:
+        return jsonify({
+            "erro": "Palestrante nao encontrado."
+        }), 404
+
+    PalestranteDAO.excluir(palestrante)
+    return "", 204
