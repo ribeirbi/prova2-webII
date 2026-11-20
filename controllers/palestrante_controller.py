@@ -14,12 +14,6 @@ def proteger_paginas():
         return redirect(url_for("auth.login"))
 
 
-# ===== ITEM 5 ========================================================
-# Hoje qualquer pessoa abre as paginas deste Blueprint sem entrar no
-# sistema. Escreva aqui a protecao, em um ponto so.
-# =====================================================================
-
-
 # Listagem (GET) e cadastro (POST) na mesma rota
 @palestrante_bp.route("/", methods=["GET", "POST"])
 def index():
